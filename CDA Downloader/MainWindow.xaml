@@ -1,0 +1,82 @@
+﻿<Window x:Class="CDA_Downloader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CDA_Downloader"
+        xmlns:WPF="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls.WebView"
+        mc:Ignorable="d"
+        Title="CDA Downloader" Height="450" Width="800" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+    <Grid x:Name="root" IsEnabled="False">
+        <TabControl x:Name="tabs" Margin="10" SelectedIndex="3">
+            <TabItem Header="Pobieranie">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MinWidth="350" Width="*"/>
+                        <ColumnDefinition Width="*" MaxWidth="120"/>
+                        <ColumnDefinition MinWidth="250" Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Margin="10,10,10,35" Grid.Column="0">
+                        <TextBox x:Name="urlText" Padding="3" TextWrapping="NoWrap"  MaxLines="1" MinLines="1" KeyDown="TextBox_KeyEnter" VerticalAlignment="Top"/>
+                        <ListView x:Name="downloadableListView" Margin="10,39,10,10">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Nazwa" Width="Auto"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=QualityS}" Header="Jakość" Width="Auto"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Url}" Header="URL" Width="Auto"/>
+                                </GridView>
+                            </ListView.View>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <EventSetter Event="MouseDoubleClick" Handler="ListView_MouseDoubleClick"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </Grid>
+                    <Button x:Name="searchButton" Content="Szukaj" Margin="0,10,30,10" Height="24" Click="Szukaj_Click" Grid.Column="1" VerticalAlignment="Top"/>
+                    <Grid Margin="10,10,10,35" Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Lista pobierania" HorizontalAlignment="Center"/>
+                        <ListView x:Name="toDownloadListView" Grid.Row="1" Margin="0,0,0,10">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Nazwa" Width="Auto"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=QualityS}" Header="Jakość" Width="Auto"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=VideoUrl}" Header="URL" Width="Auto"/>
+                                </GridView>
+                            </ListView.View>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <EventSetter Event="MouseDoubleClick" Handler="ListView_MouseDoubleClick"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </Grid>
+                    <Button x:Name="downloadButton" Content="Pobierz wybrane filmy" Grid.Column="2" Margin="10,0,10,10" VerticalAlignment="Bottom" Height="24" Click="Download_Click"/>
+                    <ProgressBar x:Name="downloadProgress" Grid.Column="2" Margin="10,0,10,10" VerticalAlignment="Bottom" Height="24" Visibility="Hidden"/>
+                    <StackPanel HorizontalAlignment="Left" Height="24" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="330" Orientation="Horizontal">
+                        <TextBlock TextWrapping="Wrap" Text="Szukaj jakości:" VerticalAlignment="Center" HorizontalAlignment="Left" Width="85"/>
+                        <CheckBox x:Name="q360" Content="360p" VerticalAlignment="Center" Width="60" IsChecked="True" Click="quality_Click"/>
+                        <CheckBox x:Name="q480" Content="480p" VerticalAlignment="Center" Width="60" IsChecked="True" Click="quality_Click"/>
+                        <CheckBox x:Name="q720" Content="720p" VerticalAlignment="Center" Width="60" IsChecked="True" Click="quality_Click"/>
+                        <CheckBox x:Name="q1080" Content="1080p" VerticalAlignment="Center" Width="60" IsChecked="True" Click="quality_Click"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Wyszukiwanie" IsEnabled="False">
+                <Grid Background="#FFE5E5E5" Margin="0" HorizontalAlignment="Right" Width="768"/>
+            </TabItem>
+            <TabItem Header="Konto" IsEnabled="False" Width="0">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Przeglądarka" Width="0">
+                <Grid Background="#FFE5E5E5">
+                    <WPF:WebView x:Name="webbrowser" Margin="0" DOMContentLoaded="webbrowser_DOMContentLoaded" Loaded="webbrowser_Loaded"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
